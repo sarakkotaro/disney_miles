@@ -46,7 +46,10 @@ export default function PlanCreatePage() {
       alert("ログインが必要です。");
       return;
     }
-
+    if (!selectedFlight || !selectedHotel) {
+      alert("フライトとホテルを選択してください！");
+      return;
+    }
     const userId = session.user.id;
     console.log("userId:", userId); // ログインユーザーIDを確認
 
@@ -64,11 +67,11 @@ export default function PlanCreatePage() {
 
     const result = await savePlan(
       userId,
-      selectedFlight!.operatedBy,
-      selectedFlight!.miles,
-      selectedHotel!.name, // hotel_name ならここも変更
-      Number(selectedHotel!.hotel_price), // price を hotel_price に変更
-      1 // 1泊の例
+      selectedFlight.operatedBy,
+      selectedFlight.miles,
+      selectedHotel.name,
+      Number(selectedHotel.hotel_price),
+      1
     );
 
     if ("error" in result) {

@@ -9,30 +9,20 @@ export const savePlan = async (
   hotel: string,
   hotel_price: number,
   nights: number
-): Promise<SavePlanResult> => {
-  if (!userId) {
-    return { error: new Error("ユーザーが認証されていません") };
-  }
-
-  const { data, error } = await supabase
-    .from("mylist")
-    .insert([
-      {
-        user_id: userId,
-        airline,
-        miles,
-        hotel,
-        hotel_price: Number(selectedHotel?.hotel_price),
-        nights,
-      },
-    ])
-    .single();
-
+) => {
+  const { data, error } = await supabase.from("mylist").insert([
+    {
+      user_id: userId,
+      airline,
+      miles,
+      hotel,
+      hotel_price,
+      nights,
+    },
+  ]);
 
   if (error) {
-    console.error("保存エラー:", error.message);
-    return { error: new Error(error.message) };
+    return { error };
   }
-
-  return { success: true };
+  return { data };
 };
