@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Park } from "@/types"; // 型をインポート
+import { Park } from "@/app/types/index"; // 型をインポート
 
 type ParkGalleryProps = {
   parks: Park[];

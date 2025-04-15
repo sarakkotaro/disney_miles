@@ -13,92 +13,85 @@ export default function PlanCreatePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const parkId = searchParams.get("park") || "";
+  const [mounted, setMounted] = useState(false);
 
-  const [mounted, setMounted] = useState(false); // ✅ Mount チェック用
   const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
 
-  // ✅ マウントされたかチェック（これを入れる）
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [flightInfo, setFlightInfo] = useState(""); // 任意補足
+  const [hotelInfo, setHotelInfo] = useState(""); // 任意補足
 
-  // ✅ session が読み込まれてからログインチェック（これも入れる）
+  // セッションチェック
   useEffect(() => {
-    if (mounted && !session) {
+    if (!session) {
       alert("ログインが必要です。");
       router.push("/auth/login");
     }
-  }, [mounted, session, router]);
+    setMounted(true);
+  }, [session, router]);
 
-  if (!mounted) return null;
-  if (!parkId || !(parkId in flightsData)) {
+  if (!mounted || !parkId || !(parkId in flightsData)) {
     return <p>無効なアクセスです。パークが選択されていません。</p>;
-  } // クライアントでの描画が保証されるまで描画しない
+  }
 
-  // あとは通常のUIコード（flights, hotelsの取得、UIの表示など）
   const flights = flightsData[parkId as ParkCode] || [];
   const hotels = hotelData[parkId as ParkCode] || [];
 
-  // 保存ボタンが押されたとき
   const handleSave = async () => {
-    if (!session) {
-      alert("ログインが必要です。");
-      return;
-    }
-    if (!selectedFlight || !selectedHotel) {
+    if (!session || !selectedFlight || !selectedHotel) {
       alert("フライトとホテルを選択してください！");
       return;
     }
-    const userId = session.user.id;
-    console.log("userId:", userId); // ログインユーザーIDを確認
 
-    // RLSポリシーに対するデバッグ: もしRLSが働いていない場合、手動で`auth.uid()`を確認
-    const { data, error } = await supabase
+    const userId = session.user?.id;
+
+    const { error } = await supabase
       .from("mylist")
       .select("*")
-      .eq("user_id", userId); // ここで一致するデータが返されるか確認
+      .eq("user_id", userId);
 
     if (error) {
       console.error("RLS ポリシーエラー:", error.message);
-    } else {
-      console.log("RLS ポリシー通過確認:", data);
+      alert("保存に失敗しました。もう一度お試しください。");
+      return;
     }
 
     const result = await savePlan(
       userId,
+      parkId,
       selectedFlight.operatedBy,
       selectedFlight.miles,
       selectedHotel.name,
       Number(selectedHotel.hotel_price),
-      1
+      1,
+      flightInfo,
+      hotelInfo
     );
 
-    if ("error" in result) {
-      console.error("保存エラー", result.error);
+    if (result.error) {
       alert(`プラン保存に失敗しました: ${result.error.message}`);
     } else {
-      router.push("/mylist"); // 保存後にマイリストにリダイレクト
+      router.push("/mylist");
     }
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">プラン作成</h1>
+    <div className="p-4 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">プラン作成</h1>
 
-      {/* Flight、Hotelの選択 UI */}
+      {/* フライト選択 */}
       <div className="mb-4">
         <label htmlFor="flight" className="block text-sm font-semibold mb-2">
           フライト選択
         </label>
         <select
           id="flight"
-          value={selectedFlight ? selectedFlight.id : ""}
+          value={selectedFlight?.id || ""}
           onChange={(e) => {
             const flight = flights.find((f) => f.id === Number(e.target.value));
             setSelectedFlight(flight || null);
           }}
-          className="border border-gray-300 p-2 rounded"
+          className="w-full border border-gray-300 p-2 rounded"
         >
           <option value="">選択してください</option>
           {flights.map((flight) => (
@@ -109,16 +102,32 @@ export default function PlanCreatePage() {
         </select>
       </div>
 
+      {/* フライト補足（任意） */}
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">
+          フライト補足情報（任意）
+        </label>
+        <textarea
+          value={flightInfo}
+          onChange={(e) => setFlightInfo(e.target.value)}
+          className="w-full border border-gray-300 p-2 rounded"
+          placeholder="例: JL123便 / 成田発10:00"
+        />
+      </div>
+
+      {/* ホテル選択 */}
       <div className="mb-4">
         <label htmlFor="hotel" className="block text-sm font-semibold mb-2">
           ホテル選択
         </label>
         <select
+          id="hotel"
+          value={selectedHotel?.name || ""}
           onChange={(e) => {
             const hotel = hotels.find((h) => h.name === e.target.value);
             setSelectedHotel(hotel || null);
           }}
-          className="border border-gray-300 p-2 rounded"
+          className="w-full border border-gray-300 p-2 rounded"
         >
           <option value="">選択してください</option>
           {hotels.map((hotel) => (
@@ -129,10 +138,24 @@ export default function PlanCreatePage() {
         </select>
       </div>
 
-      <div className="mt-4">
+      {/* ホテル補足（任意） */}
+      <div className="mb-6">
+        <label className="block text-sm font-semibold mb-2">
+          ホテル補足情報（任意）
+        </label>
+        <textarea
+          value={hotelInfo}
+          onChange={(e) => setHotelInfo(e.target.value)}
+          className="w-full border border-gray-300 p-2 rounded"
+          placeholder="例: オーシャンビュー / 朝食付き"
+        />
+      </div>
+
+      {/* 保存ボタン */}
+      <div className="text-center">
         <button
           onClick={handleSave}
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
           プランを保存
         </button>
