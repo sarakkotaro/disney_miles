@@ -14,14 +14,10 @@ export default function PlanCreatePage() {
   const searchParams = useSearchParams();
   const parkId = searchParams.get("park") || "";
   const [mounted, setMounted] = useState(false);
-
   const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
 
-  const [flightInfo, setFlightInfo] = useState(""); // 任意補足
-  const [hotelInfo, setHotelInfo] = useState(""); // 任意補足
-
-  // セッションチェック
+  // マウント時に状態更新、sessionが必要な場合はログインページにリダイレクト
   useEffect(() => {
     if (!session) {
       alert("ログインが必要です。");
@@ -30,10 +26,12 @@ export default function PlanCreatePage() {
     setMounted(true);
   }, [session, router]);
 
+  // マウント後のレンダリング処理
   if (!mounted || !parkId || !(parkId in flightsData)) {
     return <p>無効なアクセスです。パークが選択されていません。</p>;
   }
 
+  // フライトとホテルのデータ
   const flights = flightsData[parkId as ParkCode] || [];
   const hotels = hotelData[parkId as ParkCode] || [];
 
@@ -43,8 +41,10 @@ export default function PlanCreatePage() {
       return;
     }
 
-    const userId = session.user?.id;
+    const { user } = session;
+    const userId = user?.id;
 
+    // 既存データのチェック
     const { error } = await supabase
       .from("mylist")
       .select("*")
@@ -56,16 +56,15 @@ export default function PlanCreatePage() {
       return;
     }
 
+    // savePlan 呼び出し時に flight_info や hotel_info を渡さない（不要なら省略）
     const result = await savePlan(
       userId,
-      parkId,
-      selectedFlight.operatedBy,
+      parkId, // parkId を渡す必要があります
+      selectedFlight.operatedBy, // `selectedFlight` にあるプロパティを直接使用
       selectedFlight.miles,
       selectedHotel.name,
       Number(selectedHotel.hotel_price),
-      1,
-      flightInfo,
-      hotelInfo
+      1 // nights 引数を追加
     );
 
     if (result.error) {
@@ -76,10 +75,10 @@ export default function PlanCreatePage() {
   };
 
   return (
-    <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">プラン作成</h1>
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">プラン作成</h1>
 
-      {/* フライト選択 */}
+      {/* Flight選択 */}
       <div className="mb-4">
         <label htmlFor="flight" className="block text-sm font-semibold mb-2">
           フライト選択
@@ -91,7 +90,7 @@ export default function PlanCreatePage() {
             const flight = flights.find((f) => f.id === Number(e.target.value));
             setSelectedFlight(flight || null);
           }}
-          className="w-full border border-gray-300 p-2 rounded"
+          className="border border-gray-300 p-2 rounded"
         >
           <option value="">選択してください</option>
           {flights.map((flight) => (
@@ -102,32 +101,17 @@ export default function PlanCreatePage() {
         </select>
       </div>
 
-      {/* フライト補足（任意） */}
-      <div className="mb-4">
-        <label className="block text-sm font-semibold mb-2">
-          フライト補足情報（任意）
-        </label>
-        <textarea
-          value={flightInfo}
-          onChange={(e) => setFlightInfo(e.target.value)}
-          className="w-full border border-gray-300 p-2 rounded"
-          placeholder="例: JL123便 / 成田発10:00"
-        />
-      </div>
-
-      {/* ホテル選択 */}
+      {/* Hotel選択 */}
       <div className="mb-4">
         <label htmlFor="hotel" className="block text-sm font-semibold mb-2">
           ホテル選択
         </label>
         <select
-          id="hotel"
-          value={selectedHotel?.name || ""}
           onChange={(e) => {
             const hotel = hotels.find((h) => h.name === e.target.value);
             setSelectedHotel(hotel || null);
           }}
-          className="w-full border border-gray-300 p-2 rounded"
+          className="border border-gray-300 p-2 rounded"
         >
           <option value="">選択してください</option>
           {hotels.map((hotel) => (
@@ -138,24 +122,11 @@ export default function PlanCreatePage() {
         </select>
       </div>
 
-      {/* ホテル補足（任意） */}
-      <div className="mb-6">
-        <label className="block text-sm font-semibold mb-2">
-          ホテル補足情報（任意）
-        </label>
-        <textarea
-          value={hotelInfo}
-          onChange={(e) => setHotelInfo(e.target.value)}
-          className="w-full border border-gray-300 p-2 rounded"
-          placeholder="例: オーシャンビュー / 朝食付き"
-        />
-      </div>
-
       {/* 保存ボタン */}
-      <div className="text-center">
+      <div className="mt-4">
         <button
           onClick={handleSave}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
         >
           プランを保存
         </button>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { Plane, Hotel, Castle } from "lucide-react"; // アイコン追加
+import { Plane, Hotel, Wand2 } from "lucide-react";
 
 export default function MyListPage() {
   const session = useSession();
@@ -67,8 +67,10 @@ export default function MyListPage() {
       <h1 className="text-2xl font-extrabold text-center text-blue-900 mb-6">
         あなたのマイリスト ✨
       </h1>
+
+      {/* park=LAX をクエリに追加！ */}
       <button
-        onClick={() => router.push("/mylist/new")}
+        onClick={() => router.push("/mylist/new?park=LAX")}
         className="mb-6 px-6 py-2 rounded-full text-white bg-gradient-to-r from-pink-400 to-red-400 shadow hover:opacity-90"
       >
         ✨ 新規作成
@@ -79,25 +81,43 @@ export default function MyListPage() {
       ) : (
         <ul className="space-y-6">
           {plans.map((plan) => (
-            <li className="bg-white/80 border border-yellow-200 rounded-2xl shadow-md p-4 space-y-2">
+            <li
+              key={plan.id}
+              className="bg-white/80 border border-yellow-200 rounded-2xl shadow-md p-4 space-y-2"
+            >
               <p className="text-lg font-semibold text-blue-800">
-                🏰 パーク名: {plan.park_name}
+                <Wand2 className="inline text-blue-500 mr-2" />
+                パーク名: {plan.park_name}
               </p>
 
-              <p className="text-sm text-gray-700">
-                ✈️ フライト:{" "}
-                <span className="font-medium">
-                  {plan.flight_operated_by || plan.airline || "未入力"}
-                </span>
-                {plan.miles ? ` / ${plan.miles.toLocaleString()}マイル` : ""}
+              <div className="flex items-center space-x-2">
+                <Plane className="text-blue-500" />
+                <p>
+                  フライト:{" "}
+                  <span className="font-medium">
+                    {plan.flight_operated_by || plan.airline || "未入力"}
+                  </span>
+                  {plan.miles ? ` / ${plan.miles.toLocaleString()}マイル` : ""}
+                </p>
+              </div>
+
+              <p className="italic text-sm text-gray-600">
+                {plan.flight_info || "フライト情報なし"}
               </p>
 
-              <p className="text-sm text-gray-700">
-                🏨 ホテル:{" "}
-                <span className="font-medium">{plan.hotel || "未入力"}</span>
-                {plan.hotel_price
-                  ? ` - ¥${plan.hotel_price.toLocaleString()}`
-                  : ""}
+              <div className="flex items-center space-x-2 mt-2">
+                <Hotel className="text-yellow-500" />
+                <p>
+                  ホテル:{" "}
+                  <span className="font-medium">{plan.hotel || "未入力"}</span>
+                  {plan.hotel_price
+                    ? ` - ¥${plan.hotel_price.toLocaleString()}`
+                    : ""}
+                </p>
+              </div>
+
+              <p className="italic text-sm text-gray-600">
+                {plan.hotel_info || "ホテル情報なし"}
               </p>
 
               <div className="flex justify-end">
