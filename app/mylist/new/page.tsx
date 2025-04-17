@@ -33,8 +33,6 @@ const PlanCreatePage = () => {
     { code: "HNL", name: "Aulani,Resort & Spa" },
   ];
 
-  const parkOptions = parks.map((park) => park.code); // LAX, SHA, MCO, HKG など
-
   const hotels: Hotel[] = hotelData[selectedParkId as ParkCode] || [];
   const flights: Flight[] = flightsData[selectedParkId as ParkCode] || [];
 

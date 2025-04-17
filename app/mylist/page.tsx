@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Plane, Hotel, Wand2 } from "lucide-react";
 import { Database } from "@/lib/database.types";
-import { MyListRow, Plan } from "@/app/types/index";
 
 type RawPlan = Database["public"]["Tables"]["mylist"]["Row"] & {
   park_id: string; // 追加

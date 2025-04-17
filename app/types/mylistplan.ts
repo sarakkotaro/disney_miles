@@ -10,8 +10,8 @@ export type MyListPlan = {
   hotel: string;
   hotel_price: number;
   nights: number;
-  created_at: string; 
-  notes?: string; 
+  created_at: string;
+  notes?: string;
   // 新しく追加した項目
   flight_icon?: string;        // フライトアイコン
   flight_miles_type?: string;  // フライトマイル種別
