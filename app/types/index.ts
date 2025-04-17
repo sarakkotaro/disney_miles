@@ -47,4 +47,60 @@ export type Park = {
   extras?: string[];
 };
 
+export type Plan = {
+  id: string; // ← Supabase の UUID は string型
+  user_id: string;
+  park_id: string;
+  park_name?: string;  // park_name を追加
+  airline: string;
+  miles: number;
+  hotel: string;
+  hotel_price: number;
+  nights: number;
+  created_at: string;
+  notes?: string;
+  flight_icon?: string;
+  flight_miles_type?: string;
+  flight_operated_by?: string;
+  hotel_distance?: string;
+  hotel_image?: string;
+};
 
+export type RawPlan = {
+  id: string;
+  user_id: string;
+  airline: string;
+  miles: number;
+  hotel: string;
+  hotel_price: number;
+  nights: number;
+  created_at: string;
+  notes: string;
+  flight_icon?: string;
+  flight_miles_type?: string;
+  flight_operated_by?: string;
+  hotel_distance?: string;
+  hotel_image?: string;
+  park_id: string; // これを追加
+  park_name?: string;  // park_name を追加
+
+};
+
+export type MyListRow = {
+  id: number;
+  user_id: string;
+  airline: string;
+  miles: number;
+  hotel: string;
+  hotel_price: number;
+  nights: number;
+  created_at: string;
+  notes: string;
+  flight_icon?: string;
+  flight_miles_type?: string;
+  flight_operated_by?: string;
+  hotel_distance?: string;
+  hotel_image?: string;
+  park_id: string; // これを追加
+  park_name?: string;  // park_name を追加
+};

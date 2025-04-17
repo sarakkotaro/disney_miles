@@ -5,12 +5,20 @@ import { useSession } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Plane, Hotel, Wand2 } from "lucide-react";
+import { Database } from "@/lib/database.types";
+import { MyListRow, Plan } from "@/app/types/index";
+
+type RawPlan = Database["public"]["Tables"]["mylist"]["Row"] & {
+  park_id: string; // 追加
+};
+
+type PlanWithParkName = RawPlan & { park_name: string };
 
 export default function MyListPage() {
   const session = useSession();
   const router = useRouter();
-  const [plans, setPlans] = useState<any[]>([]);
-  const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
+  const [plans, setPlans] = useState<PlanWithParkName[]>([]);
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [noteInput, setNoteInput] = useState("");
 
   useEffect(() => {
@@ -24,19 +32,24 @@ export default function MyListPage() {
         .from("mylist")
         .select("*")
         .eq("user_id", session.user?.id);
-
+      console.log(data); // ここでデータの中身を確認
       if (error || !data) {
         console.error("取得エラー", error);
         return;
       }
+      // 型を指定してdataを安全に使用
+      console.log(data); // Supabaseからのデータを確認
 
-      const formatted = (data ?? []).map((plan: any) => ({
-        ...plan,
-        hotel_price: plan.hotel_price ? Number(plan.hotel_price) : 0,
-        flight_info: plan.flight_info ?? "未入力",
-        hotel_info: plan.hotel_info ?? "未入力",
-        park_name: getParkName(plan.park_id),
-      }));
+      const formatted: PlanWithParkName[] = (data ?? []).map((plan) => {
+        const parkName = getParkName(plan.park_id); // park_nameを取得
+        console.log(`park_id: ${plan.park_id} => park_name: ${parkName}`); // park_id と park_name を表示
+
+        return {
+          ...plan,
+          hotel_price: plan.hotel_price ? Number(plan.hotel_price) : 0,
+          park_name: parkName,
+        };
+      });
 
       setPlans(formatted);
     };
@@ -48,23 +61,30 @@ export default function MyListPage() {
     switch (parkId) {
       case "LAX":
         return "Disneyland California";
-      case "NRT":
-        return "Tokyo Disneyland";
+      case "SHA":
+        return "Shanghai Disneyland";
+      case "MCO":
+        return "Walt Disney World";
+      case "HKG":
+        return "Hong Kong Disneyland";
+      case "HNL":
+        return "Aulani,Resort & Spa";
       case "CDG":
         return "Disneyland Paris";
+
       default:
-        return parkId;
+        return "Unknown Park";
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     const { error } = await supabase.from("mylist").delete().eq("id", id);
     if (!error) {
       setPlans((prev) => prev.filter((plan) => plan.id !== id));
     }
   };
 
-  const handleUpdateNote = async (id: number) => {
+  const handleUpdateNote = async (id: string) => {
     const { error } = await supabase
       .from("mylist")
       .update({ notes: noteInput })
@@ -83,9 +103,9 @@ export default function MyListPage() {
     }
   };
 
-  const handleEdit = (id: number, currentNote: string) => {
+  const handleEdit = (id: string, notes: string) => {
     setEditingNoteId(id);
-    setNoteInput(currentNote); // 編集時に備考をセット
+    setNoteInput(notes); // ← 修正済み
   };
 
   return (
@@ -126,10 +146,6 @@ export default function MyListPage() {
                 </p>
               </div>
 
-              <p className="italic text-sm text-gray-600">
-                {plan.flight_info || "フライト情報なし"}
-              </p>
-
               <div className="flex items-center space-x-2 mt-2">
                 <Hotel className="text-yellow-500" />
                 <p>
@@ -140,10 +156,6 @@ export default function MyListPage() {
                     : ""}
                 </p>
               </div>
-
-              <p className="italic text-sm text-gray-600">
-                {plan.hotel_info || "ホテル情報なし"}
-              </p>
 
               {editingNoteId === plan.id ? (
                 <div>

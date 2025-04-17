@@ -1,13 +1,16 @@
 "use client";
 
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
-import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs";
+import {
+  createPagesBrowserClient,
+  Session,
+} from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
 import { Database } from "@/lib/database.types";
 
 interface ProvidersProps {
   children: React.ReactNode;
-  initialSession: any; // `Session | null` でもOK
+  initialSession: Session | null; // `Session | null` でもOK
 }
 
 export default function Providers({
