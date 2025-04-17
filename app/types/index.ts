@@ -11,7 +11,11 @@ export type Flight = {
   icon: string;
   milesType: string;
   operatedBy: string;
+  flight_icon?: string;          // 画像URL
+  flight_operated_by?: string;  // 運航会社
+  
 };
+
 
 
 // ホテル一覧とか選択肢に使う
@@ -21,24 +25,26 @@ export type Hotel = {
   hotel_price: string;
   distance: string;
   image: string;
+  features?: string;
+  description: string; 
 
 };
 // パーク詳細ページ用のデータ構造
-export type ParkData = {
-  title: string;
-  summary: string;
-  hours: string[];
-  tickets: string[];
-  features: string[];
-  extras: string[];
-};
-
-// パークTOPページ用のデータ構造
 export type Park = {
-  id: string;
+  id: string; // ← ここに型を合わせる
   name: string;
   imageUrl: string;
   details: string;
   openingHours: string;
   ticketPrice: string;
+  description?: string;
+
+  // 詳細ページ向け
+  summary?: string;
+  hours?: string[];
+  tickets?: string[];
+  features?: string[];
+  extras?: string[];
 };
+
+

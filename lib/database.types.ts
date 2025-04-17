@@ -69,6 +69,12 @@ mylist: {
     hotel_price: number
     nights: number
     created_at: string
+    notes: string
+    flight_icon?: string        // 追加されたフィールド
+    flight_miles_type?: string  // 追加されたフィールド
+    flight_operated_by?: string // 追加されたフィールド
+    hotel_distance?: string     // 追加されたフィールド
+    hotel_image?: string        // 追加されたフィールド
   }
   Insert: {
     user_id: string
@@ -77,6 +83,12 @@ mylist: {
     hotel: string
     hotel_price: number
     nights: number
+    notes: string
+    flight_icon?: string        // 追加されたフィールド
+    flight_miles_type?: string  // 追加されたフィールド
+    flight_operated_by?: string // 追加されたフィールド
+    hotel_distance?: string     // 追加されたフィールド
+    hotel_image?: string        // 追加されたフィールド
   }
   Update: {
     user_id?: string
@@ -85,6 +97,12 @@ mylist: {
     hotel?: string
     hotel_price?: number
     nights?: number
+    notes?: string
+    flight_icon?: string        // 追加されたフィールド
+    flight_miles_type?: string  // 追加されたフィールド
+    flight_operated_by?: string // 追加されたフィールド
+    hotel_distance?: string     // 追加されたフィールド
+    hotel_image?: string        // 追加されたフィールド
   }
   Relationships: []
 }
