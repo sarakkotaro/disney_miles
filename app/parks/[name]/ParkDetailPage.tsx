@@ -51,14 +51,14 @@ const ParkDetailPage: React.FC<{
 
         {/* 基本情報4つ */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <InfoCard title="Highlights" items={parkInfo.features} icon="" />
+          <InfoCard title="Information" items={parkInfo.extras} icon="" />
           <InfoCard
-            title="営業時間"
+            title="Opening Hours"
             items={parkInfo.hours || [parkInfo.openingHours]}
             icon=""
           />
-          <InfoCard title="チケット情報" items={parkInfo.tickets} icon="" />
-          <InfoCard title="特徴" items={parkInfo.features} icon="" />
-          <InfoCard title="追加情報" items={parkInfo.extras} icon="" />
+          <InfoCard title="Information" items={parkInfo.tickets} icon="" />
         </div>
 
         {/* タブ切り替え */}
