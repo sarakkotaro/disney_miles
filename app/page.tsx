@@ -23,9 +23,9 @@ export default async function Home() {
   }
   const parks = [
     { code: "LAX", name: "Disneyland California", image: "/images/LAX.png" },
-    { code: "MCO", name: "Walt Disney World", image: "/images/mco.png" },
+    { code: "MCO", name: "Walt Disney World", image: "/images/MCO.png" },
     { code: "CDG", name: "Disneyland Paris", image: "/images/CDG.png" },
-    { code: "SHA", name: "Shanghai Disney", image: "/images/sha.png" },
+    { code: "SHA", name: "Shanghai Disney", image: "/images/SHA.png" },
     { code: "HKG", name: "Hong Kong Disney", image: "/images/HKG.png" },
     { code: "HNL", name: "Aulani,Resort & Spa", image: "/images/HNL.png" },
   ];
@@ -56,7 +56,7 @@ export default async function Home() {
       </section>
 
       <footer className="text-center mt-10 text-yellow-600 font-semibold text-lg">
-        どのパークに行きたい？
+        貯めたマイルで、夢の世界へ出かけませんか？？
       </footer>
     </main>
   );

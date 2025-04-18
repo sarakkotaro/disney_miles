@@ -8,11 +8,13 @@ import { ParkCode, Hotel, Flight, Park } from "@/app/types";
 import Image from "next/image";
 import TabButton from "../TabButton";
 import InfoCard from "../InfoCard";
+import { useRouter } from "next/navigation";
 
 const ParkDetailPage: React.FC<{
   parkCode: ParkCode;
   handlePlanClick: () => void;
 }> = ({ parkCode, handlePlanClick }) => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"flights" | "hotels">("flights");
 
   const parkInfo: Park | undefined = parkData.find(
@@ -132,12 +134,20 @@ const ParkDetailPage: React.FC<{
 
         {/* プラン作成ボタン */}
         <div className="text-center">
-          <button
-            className="mt-10 mb-6 px-6 py-2 rounded-full text-white bg-gradient-to-r from-pink-400 to-red-400 shadow hover:opacity-90"
-            onClick={handlePlanClick}
-          >
-            プランを作成する
-          </button>
+          <div className="mt-10 mb-6 flex justify-center gap-4">
+            <button
+              className="px-6 py-2 rounded-full text-white bg-gradient-to-r from-green-400 to-lime-400 shadow hover:opacity-90"
+              onClick={() => router.push("/")}
+            >
+              TOPに戻る
+            </button>
+            <button
+              className="px-6 py-2 rounded-full text-white bg-gradient-to-r from-pink-400 to-red-400 shadow hover:opacity-90"
+              onClick={handlePlanClick}
+            >
+              プラン作成
+            </button>
+          </div>
         </div>
       </div>
     </div>
