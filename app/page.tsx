@@ -12,11 +12,14 @@ export default async function Home() {
   } = await supabase.auth.getSession();
 
   if (session) {
-    const { data: _profile } = await supabase
+    const { data: profile } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", session.user.id)
       .single();
+    if (profile) {
+      console.log("プロフィール名:", profile.name);
+    }
   }
   const parks = [
     { code: "LAX", name: "Disneyland California", image: "/images/LAX.png" },
