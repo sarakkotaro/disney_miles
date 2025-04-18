@@ -2,6 +2,7 @@
 
 世界のディズニーパークでの旅行プランを簡単に作成・保存できるアプリです。フライト・ホテルの情報から、必要なマイル数をチェックして、自分だけの旅行リストを作成できます。
 
+
 ## 🏰 主な機能
 
 - 世界 6 つのディズニーパークを選択
@@ -15,9 +16,29 @@
 - 並び替えやフィルターで検索しやすく
 - レビューや写真の表示
 
+  
+## 🔗 Demo
+https://disney-miles5.vercel.app
+
+## 🔐 Demo Login
+- Email: test@gmail.com
+- Password: 123456
+
+- 
+## 🖼️ Screenshot
+![screenshot](screenshot.png)
+
 💬 制作メモ
 SupabaseのRLSと戦いながら、React Hooksで状態管理しつつ、ディズニー好きに優しいUIを目指しました
 ````
+
+## 🔗 Demo
+https://disney-miles5.vercel.app
+
+## 🔐 Demo Login
+- Email: test@gmail.com
+- Password: 123456
+
 
 ## 🛠️ 使用技術
 
@@ -26,6 +47,7 @@ SupabaseのRLSと戦いながら、React Hooksで状態管理しつつ、ディ�
 - Tailwind CSS
 - Supabase（認証・データベース）
 - PostgreSQL
+
 
 ## 🚀 セットアップ方法
 
