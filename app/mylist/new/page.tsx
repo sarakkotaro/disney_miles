@@ -70,85 +70,106 @@ const PlanCreatePage = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">新しいプランを作成</h1>
+    <div className="p-4 max-w-xl mx-auto text-gray-800">
+      <h1 className="text-2xl font-extrabold text-blue-600 mb-2 text-center mb-6 tracking-wide">
+        Start Your Plan
+      </h1>
 
-      <div className="mb-4">
-        <label className="block mb-1 font-medium">パーク選択：</label>
-        <select
-          value={selectedParkId}
-          onChange={(e) => setSelectedParkId(e.target.value)}
-          className="border p-2 rounded w-full"
-        >
-          <option value="">選択してください</option>
-          {parks.map((park) => (
-            <option key={park.code} value={park.code}>
-              {park.name} {/* ここで名前を表示 */}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {selectedParkId && (
-        <>
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">フライト選択：</label>
-            {flights.map((flight) => (
-              <div key={flight.id}>
-                <input
-                  type="radio"
-                  name="flight"
-                  value={flight.id}
-                  onChange={() => setSelectedFlightId(flight.id)}
-                />
-                {flight.milesType} - {flight.miles} miles
-              </div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">ホテル選択：</label>
-            {hotels.map((hotel) => (
-              <div key={hotel.id}>
-                <input
-                  type="radio"
-                  name="hotel"
-                  value={hotel.id}
-                  onChange={() => setSelectedHotelId(hotel.id)}
-                />
-                {hotel.name} - ${hotel.hotel_price}
-              </div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">泊数：</label>
-            <input
-              type="number"
-              value={nights}
-              min={1}
-              onChange={(e) => setNights(Number(e.target.value))}
-              className="border p-2 rounded w-full"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">メモ：</label>
-            <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="border p-2 rounded w-full"
-            />
-          </div>
-
-          <button
-            onClick={handleSave}
-            className="mb-6 px-6 py-2 rounded-full text-white bg-gradient-to-r from-pink-400 to-red-400 shadow hover:opacity-90"
+      <div className="space-y-4">
+        {/* パーク選択 */}
+        <div>
+          <label className="block mb-1 text-sm font-semibold">
+            パーク選択：
+          </label>
+          <select
+            value={selectedParkId}
+            onChange={(e) => setSelectedParkId(e.target.value)}
+            className="border p-2 rounded w-full h-10 text-sm"
           >
-            保存する
-          </button>
-        </>
-      )}
+            <option value="">選択してください</option>
+            {parks.map((park) => (
+              <option key={park.code} value={park.code}>
+                {park.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* フライト選択 */}
+        {selectedParkId && (
+          <>
+            <div>
+              <label className="block mb-1 text-sm font-semibold">
+                フライト選択：
+              </label>
+              <div className="space-y-2 text-sm">
+                {flights.map((flight) => (
+                  <label key={flight.id} className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="flight"
+                      value={flight.id}
+                      onChange={() => setSelectedFlightId(flight.id)}
+                    />
+                    {flight.milesType} - {flight.miles} miles
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* ホテル選択 */}
+            <div>
+              <label className="block mb-1 text-sm font-semibold">
+                ホテル選択：
+              </label>
+              <div className="space-y-2 text-sm">
+                {hotels.map((hotel) => (
+                  <label key={hotel.id} className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="hotel"
+                      value={hotel.id}
+                      onChange={() => setSelectedHotelId(hotel.id)}
+                    />
+                    {hotel.name} - ${hotel.hotel_price}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* 泊数 */}
+            <div>
+              <label className="block mb-1 text-sm font-semibold">泊数：</label>
+              <input
+                type="number"
+                value={nights}
+                min={1}
+                onChange={(e) => setNights(Number(e.target.value))}
+                className="border p-2 rounded w-full h-10 text-sm"
+              />
+            </div>
+
+            {/* メモ */}
+            <div>
+              <label className="block mb-1 text-sm font-semibold">メモ：</label>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="border p-2 rounded w-full text-sm leading-relaxed"
+                rows={4}
+              />
+            </div>
+
+            {/* 保存ボタン */}
+            <button
+              onClick={handleSave}
+              className="w-full mt-4 px-6 py-2 rounded-full text-white bg-gradient-to-r from-pink-400 to-red-400 shadow hover:opacity-90 font-semibold tracking-wide"
+            >
+              ✨保存する
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

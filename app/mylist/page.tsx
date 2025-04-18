@@ -104,7 +104,7 @@ export default function MyListPage() {
 
   const handleEdit = (id: string, notes: string) => {
     setEditingNoteId(id);
-    setNoteInput(notes); // ← 修正済み
+    setNoteInput(notes);
   };
 
   return (

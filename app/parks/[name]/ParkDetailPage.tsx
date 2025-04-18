@@ -30,6 +30,9 @@ const ParkDetailPage: React.FC<{
   return (
     <div className="min-h-screen py-10 px-6">
       <div className="max-w-4xl mx-auto space-y-6">
+        <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-2">
+          {parkInfo.name}
+        </h1>
         {/* ✅ メイン画像 */}
         <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
           <Image
@@ -43,9 +46,6 @@ const ParkDetailPage: React.FC<{
 
         {/* タイトルとサマリー */}
         <div className="text-center mt-6">
-          <h1 className="text-4xl font-extrabold text-blue-600 mb-2">
-            {parkInfo.name}
-          </h1>
           <p className="text-gray-700 text-lg">{parkInfo.summary}</p>
         </div>
 
@@ -58,7 +58,7 @@ const ParkDetailPage: React.FC<{
             items={parkInfo.hours || [parkInfo.openingHours]}
             icon=""
           />
-          <InfoCard title="Information" items={parkInfo.tickets} icon="" />
+          <InfoCard title="Park Ticket" items={parkInfo.tickets} icon="" />
         </div>
 
         {/* タブ切り替え */}
@@ -145,7 +145,7 @@ const ParkDetailPage: React.FC<{
               className="px-6 py-2 rounded-full text-white bg-gradient-to-r from-pink-400 to-red-400 shadow hover:opacity-90"
               onClick={handlePlanClick}
             >
-              プラン作成
+              ✨プラン作成
             </button>
           </div>
         </div>
