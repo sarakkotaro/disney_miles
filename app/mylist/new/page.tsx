@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@supabase/auth-helpers-react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase"; // クライアントサイドの supabase インスタンス
 import { Hotel, Flight, ParkCode } from "@/app/types";
 import { hotelData } from "@/app/parks/hotelData";
 import { flightsData } from "@/app/parks/flightsData";

@@ -1,6 +1,7 @@
 // app/miles/[id]/page.tsx
 "use client";
 
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 // 各目的地ごとの必要マイル数
 const milesData: Record<string, { destination: string }> = {
@@ -550,7 +551,7 @@ const MilesPage: React.FC = () => {
           <div key={flight.id}>
             <p>{flight.operatedBy}</p>
             <p>{flight.miles} マイル</p>
-            <img src={flight.icon} alt={flight.operatedBy} />
+            <Image src={flight.icon} alt={flight.operatedBy} />
           </div>
         ))}
       </div>

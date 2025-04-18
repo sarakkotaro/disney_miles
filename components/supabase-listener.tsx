@@ -12,7 +12,7 @@ export default function SupabaseListener() {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, _session) => {
+    } = supabase.auth.onAuthStateChange(() => {
       router.refresh(); // SSRセッションを更新するのに重要！
     });
 

@@ -17,7 +17,6 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
 export default async function RootLayout({
   children,
 }: {
@@ -25,19 +24,31 @@ export default async function RootLayout({
 }) {
   const supabase = createServerComponentClient<Database>({ cookies });
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
+  let session = null;
   let profile = null;
-  if (session) {
-    const { data } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", session.user.id)
-      .single();
-    profile = data;
+
+  try {
+    const {
+      data: { session: _session },
+    } = await supabase.auth.getSession();
+    console.log("取得したセッション:", _session); // セッション情報をログに出力
+    session = _session;
+
+    if (session) {
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single();
+      profile = data;
+    }
+  } catch (error) {
+    console.error("⚠️ セッション取得エラー:", error);
   }
+
+  // 👇ここにログ出力を書く！（returnの直前）
+  console.log("🧪 session:", session);
+  console.log("🧪 profile:", profile);
 
   return (
     <html
@@ -47,9 +58,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
-        {/* ナビゲーション */}
         <Providers initialSession={session}>
-          {/* 👈 session を渡す！ */}
           <Navigation session={session} profile={profile} />
           <SupabaseListener />
           {children}

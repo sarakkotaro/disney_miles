@@ -26,7 +26,7 @@ export type Hotel = {
   distance: string;
   image: string;
   features?: string;
-  description: string; 
+  description?: string; 
 
 };
 // パーク詳細ページ用のデータ構造

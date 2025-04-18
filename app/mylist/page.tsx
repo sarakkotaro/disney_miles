@@ -110,7 +110,7 @@ export default function MyListPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-yellow-50 p-6">
       <h1 className="text-2xl font-extrabold text-center text-blue-900 mb-6">
-        あなたのマイリスト ✨
+        MyList✨
       </h1>
 
       <button

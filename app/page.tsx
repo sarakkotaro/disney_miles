@@ -11,16 +11,13 @@ export default async function Home() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  let profile = null;
   if (session) {
-    const { data } = await supabase
+    const { data: _profile } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", session.user.id)
       .single();
-    profile = data;
   }
-
   const parks = [
     { code: "LAX", name: "Disneyland California", image: "/images/LAX.png" },
     { code: "MCO", name: "Walt Disney World", image: "/images/mco.png" },
