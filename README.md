@@ -26,7 +26,11 @@ https://disney-miles5.vercel.app
 
 - 
 ## 🖼️ Screenshot
-![screenshot](screenshot.png)
+![アプリのスクリーンショット](./TOPページ.png)
+![アプリのスクリーンショット](./Park.png)
+![アプリのスクリーンショット](./MyList.png)
+![アプリのスクリーンショット](./Flight.png)
+
 
 💬 制作メモ
 SupabaseのRLSと戦いながら、React Hooksで状態管理しつつ、ディズニー好きに優しいUIを目指しました
