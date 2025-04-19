@@ -21,7 +21,7 @@
 https://disney-miles5.vercel.app
 
 ## 🔐 Demo Login
-- Email: test@gmail.com
+- Email: demo@gmail.com
 - Password: 123456
 
  
