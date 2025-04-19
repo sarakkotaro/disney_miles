@@ -26,10 +26,11 @@ https://disney-miles5.vercel.app
 
  
 ## 🖼️ Screenshot
-![スクリーンショット](/home.png)
-![スクリーンショット](/park_info.png)
-![スクリーンショット](/mile.png)
-![スクリーンショット](/my_list.png)
+![スクリーンショット](https://github.com/sarakkotaro/disney_miles/blob/main/public/home.png?raw=true)
+![スクリーンショット](https://github.com/sarakkotaro/disney_miles/blob/main/public/park_info.png?raw=true)
+![スクリーンショット](https://github.com/sarakkotaro/disney_miles/blob/main/public/my_list.png?raw=true)
+![スクリーンショット](https://github.com/sarakkotaro/disney_miles/blob/main/public/park_info.png?raw=true)
+
 
 
 
