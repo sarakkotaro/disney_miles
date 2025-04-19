@@ -26,7 +26,6 @@ https://disney-miles5.vercel.app
 
  
 ## 🖼️ Screenshot
-![スクリーンショット](/top.png)
 
 
 
