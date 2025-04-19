@@ -26,7 +26,11 @@ https://disney-miles5.vercel.app
 
  
 ## 🖼️ Screenshot
-![アプリのスクリーンショット](./top.png)
+![スクリーンショット](/home.png)
+![スクリーンショット](/park_info.png)
+![スクリーンショット](/mile.png)
+![スクリーンショット](/my_list.png)
+
 
 
 
